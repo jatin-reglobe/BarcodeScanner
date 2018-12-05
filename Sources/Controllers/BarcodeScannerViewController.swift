@@ -46,6 +46,7 @@ open class BarcodeScannerViewController: UIViewController {
   /// When the flag is set to `true` controller returns a captured code
   /// and waits for the next reset action.
   public var isOneTimeSearch = true
+  public var bottomMessage: String?
 
   /// `AVCaptureMetadataOutput` metadata object types.
   public var metadata = AVMetadataObject.ObjectType.barcodeScannerMetadata {
@@ -82,7 +83,7 @@ open class BarcodeScannerViewController: UIViewController {
   }
 
   /// The current controller's status mode.
-  private var status: Status = Status(state: .scanning) {
+    private var status: Status = Status(state: .scanning, animated: true, text: nil) {
     didSet {
       changeStatus(from: oldValue, to: status)
     }
@@ -131,14 +132,14 @@ open class BarcodeScannerViewController: UIViewController {
    - Parameter animated: Flag to show scanner with or without animation.
    */
   public func reset(animated: Bool = true) {
-    status = Status(state: .scanning, animated: animated)
+    status = Status(state: .scanning, animated: animated, text: self.bottomMessage)
   }
 
   private func changeStatus(from oldValue: Status, to newValue: Status) {
     guard newValue.state != .notFound else {
       messageViewController.status = newValue
       DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-        self.status = Status(state: .scanning)
+        self.status = Status(state: .scanning, animated: true, text: self.bottomMessage)
       }
       return
     }
@@ -290,7 +291,7 @@ extension BarcodeScannerViewController: HeaderViewControllerDelegate {
 
 extension BarcodeScannerViewController: CameraViewControllerDelegate {
   func cameraViewControllerDidSetupCaptureSession(_ controller: CameraViewController) {
-    status = Status(state: .scanning)
+    status = Status(state: .scanning, animated: true, text : self.bottomMessage)
   }
 
   func cameraViewControllerDidFailToSetupCaptureSession(_ controller: CameraViewController) {

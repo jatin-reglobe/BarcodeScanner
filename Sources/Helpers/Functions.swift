@@ -18,7 +18,6 @@ func imageNamed(_ name: String) -> UIImage {
   guard let image = UIImage(named: name, in: bundle, compatibleWith: traitCollection) else {
     return UIImage()
   }
-
   return image
 }
 
