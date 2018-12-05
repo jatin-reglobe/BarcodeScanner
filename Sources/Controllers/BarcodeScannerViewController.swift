@@ -132,6 +132,7 @@ open class BarcodeScannerViewController: UIViewController {
    - Parameter animated: Flag to show scanner with or without animation.
    */
   public func reset(animated: Bool = true) {
+    self.bottomMessage = nil
     status = Status(state: .scanning, animated: animated, text: self.bottomMessage)
   }
 
