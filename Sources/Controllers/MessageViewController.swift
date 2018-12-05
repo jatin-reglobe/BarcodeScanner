@@ -107,7 +107,8 @@ public final class MessageViewController: UIViewController {
 
     switch status.state {
     case .scanning, .unauthorized:
-      textLabel.numberOfLines = 0
+        textLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        textLabel.numberOfLines = 1
       textLabel.textAlignment = .center
       imageView.tintColor = regularTintColor
     case .processing:
